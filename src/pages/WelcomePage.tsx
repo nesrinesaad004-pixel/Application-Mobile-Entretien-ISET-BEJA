@@ -88,7 +88,7 @@ export default function WelcomePage() {
   {showQR && (
     <div className="mt-6 p-4 bg-white rounded-xl shadow-lg max-w-xs mx-auto">
       <img 
-        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="https://application-web-entretien-iset-beja-psi.vercel.app" 
+        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="https://application-mobile-entretien-iset-b-nine.vercel.app" 
         alt="QR Code pour jouer "
         className="w-full h-auto"
       />
