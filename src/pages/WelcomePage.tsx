@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Users, Target, Sparkles } from 'lucide-react';
+import { Briefcase, Users, Target } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Briefcase, Users, Target, Sparkles, QrCode } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useState } from 'react';
@@ -62,11 +63,12 @@ export default function WelcomePage() {
           ))}
         </div>
 <div className="text-center mt-8">
+  {/* Bouton "Masquer" ou "Afficher" */}
   <button
     onClick={() => setShowQR(!showQR)}
     className="flex items-center gap-2 px-4 py-2 rounded-lg 
                bg-blue-600 text-white hover:bg-blue-700 
-               transition-colors shadow-md"
+               transition-colors shadow-md mb-4"
   >
     {showQR ? (
       <>
@@ -83,23 +85,35 @@ export default function WelcomePage() {
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <path d="M7 7h10v10H7z"></path>
         </svg>
-        Afficher le QR Code 
+        Afficher le QR Code pour mobile
       </>
     )}
   </button>
 
+  {/* QR Code ou placeholder */}
   {showQR && (
-    <div className="mt-6 p-4 bg-white rounded-xl shadow-lg max-w-xs mx-auto">
+    <div className="mb-4 p-4 bg-white rounded-xl shadow-lg max-w-xs mx-auto">
       <img 
-        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="https://application-web-entretien-iset-beja-psi.vercel.app" 
-        alt="QR Code pour jouer "
+        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://application-web-entretien-iset-beja-psi.vercel.app" 
+        alt="QR Code pour jouer sur mobile"
         className="w-full h-auto"
       />
       <p className="text-sm text-gray-500 mt-2 text-center">
-        Scannez pour jouer 
+        Scannez pour jouer sur mobile
       </p>
     </div>
   )}
+
+  {/* Bouton "Commencer l'aventure" */}
+  <Button 
+    size="lg" 
+    variant="default" 
+    onClick={() => navigate('/niveau-1')}
+    className="bg-white text-blue-600 hover:bg-blue-50 border border-blue-200 shadow-md"
+  >
+    Commencer l'aventure
+    <Sparkles className="ml-2 h-5 w-5" />
+  </Button>
 </div>
         {/* CTA Button */}
         <div className="animate-fade-in" style={{ animationDelay: '600ms' }}>
