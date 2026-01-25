@@ -1,11 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Briefcase, Users, Target, Sparkles } from 'lucide-react';
+import { Briefcase, Users, Target, Sparkles, QrCode } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { useState } from 'react';
 
+
 export default function WelcomePage() {
+  const [showQR, setShowQR] = useState(false);
   const navigate = useNavigate();
-  const [showQR, setShowQR] = useState(false); 
 
   return (
     <div className="min-h-screen gradient-hero flex flex-col">
@@ -93,7 +96,7 @@ export default function WelcomePage() {
         className="w-full h-auto"
       />
       <p className="text-sm text-gray-500 mt-2 text-center">
-        Scannez pour jouer sur mobile
+        Scannez pour jouer 
       </p>
     </div>
   )}
