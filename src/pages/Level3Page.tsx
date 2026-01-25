@@ -13,7 +13,7 @@ const mailBlocks = [
   { id: 'salutation', content: 'Chère Madame Fatma,', order: 1 },
   { id: 'remerciement', content: 'Je vous remercie de votre invitation et vous confirme ma présence à l\'entretien de stage PFE à TechTunis.', order: 2 },
   { id: 'disponibilite', content: 'Je reste disponible pour toute information complémentaire.', order: 3 },
-  { id: 'signature', content: 'Cordialement,', order: 4 },
+  { id: 'signature', content: 'Respectueusement,', order: 4 },
 ];
 
 export default function Level3Page() {
@@ -158,7 +158,7 @@ export default function Level3Page() {
             <p className="mb-2">
               Merci de confirmer votre présence.
             </p>
-            <p>Cordialement,<br />Mme Fatma Ben Ali<br />Responsable RH - TechTunis</p>
+            <p>Respectueusement,<br />Mme Fatma Ben Ali<br />Responsable RH - TechTunis</p>
           </div>
         </div>
 
