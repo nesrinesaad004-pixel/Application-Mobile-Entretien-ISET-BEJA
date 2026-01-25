@@ -80,7 +80,7 @@ export default function WelcomePage() {
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <path d="M7 7h10v10H7z"></path>
         </svg>
-        Afficher le QR Code pour mobile
+        Afficher le QR Code 
       </>
     )}
   </button>
@@ -89,7 +89,7 @@ export default function WelcomePage() {
     <div className="mt-6 p-4 bg-white rounded-xl shadow-lg max-w-xs mx-auto">
       <img 
         src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="https://application-web-entretien-iset-beja-psi.vercel.app" 
-        alt="QR Code pour jouer sur mobile"
+        alt="QR Code pour jouer "
         className="w-full h-auto"
       />
       <p className="text-sm text-gray-500 mt-2 text-center">
