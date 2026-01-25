@@ -85,7 +85,7 @@ export default function WelcomePage() {
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <path d="M7 7h10v10H7z"></path>
         </svg>
-        Afficher le QR Code pour mobile
+        Afficher le QR Code 
       </>
     )}
   </button>
@@ -99,21 +99,12 @@ export default function WelcomePage() {
         className="w-full h-auto"
       />
       <p className="text-sm text-gray-500 mt-2 text-center">
-        Scannez pour jouer sur mobile
+        Scannez pour jouer 
       </p>
     </div>
   )}
 
-  {/* Bouton "Commencer l'aventure" */}
-  <Button 
-    size="lg" 
-    variant="default" 
-    onClick={() => navigate('/niveau-1')}
-    className="bg-white text-blue-600 hover:bg-blue-50 border border-blue-200 shadow-md"
-  >
-    Commencer l'aventure
-    <Sparkles className="ml-2 h-5 w-5" />
-  </Button>
+ 
 </div>
         {/* CTA Button */}
         <div className="animate-fade-in" style={{ animationDelay: '600ms' }}>
