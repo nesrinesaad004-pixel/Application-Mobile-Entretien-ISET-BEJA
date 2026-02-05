@@ -10,7 +10,6 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 
-
 const mailBlocks = [
   { id: 'salutation', content: 'Chère Madame Fatma,', order: 1 },
   { id: 'remerciement', content: 'Je vous remercie de votre invitation et je confirme ma présence à l\'entretien de stage PFE à TechTunis.', order: 2 },
@@ -41,13 +40,10 @@ export default function Level3Page() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Move block up or down using buttons (mobile-friendly)
   const moveBlock = (index: number, direction: 'up' | 'down') => {
     if (hasValidated) return;
-    
     const newIndex = direction === 'up' ? index - 1 : index + 1;
     if (newIndex < 0 || newIndex >= blocks.length) return;
-    
     const newBlocks = [...blocks];
     [newBlocks[index], newBlocks[newIndex]] = [newBlocks[newIndex], newBlocks[index]];
     setBlocks(newBlocks);
@@ -67,7 +63,7 @@ export default function Level3Page() {
     if (correct) {
       toast.success('Bravo ! Votre réponse est claire et professionnelle !');
     } else {
-      toast.error('L\'ordre n\'est pas correct. La bonne réponse vous est affichée ci-dessous.');
+      toast.error('L\'ordre n\'est pas correct.');
     }
   };
 
@@ -75,7 +71,7 @@ export default function Level3Page() {
     const totalScore = isCorrect ? 20 : 0;
     completeLevel(3, totalScore);
 
-    if (isCorrect) {
+    if (totalScore === 20) {
       toast.success(`Excellent ! Vous avez obtenu ${totalScore}/20 points au niveau 3.`);
     } else {
       toast.warning(`Vous avez obtenu ${totalScore}/20 points au niveau 3.`);
@@ -200,25 +196,27 @@ export default function Level3Page() {
 
           {hasValidated && (
             <>
-              {/* 🔥 Bonne réponse toujours affichée */}
-              <div className="mt-6 p-4 bg-muted rounded-xl w-full max-w-2xl">
-                <p className="font-medium text-muted-foreground mb-3">Bonne réponse :</p>
-                <div className="space-y-2">
-                  {mailBlocks.map((block, index) => (
-                    <div 
-                      key={block.id} 
-                      className="p-3 rounded-lg bg-background border"
-                    >
-                      <span className="text-xs font-bold text-muted-foreground mr-2">
-                        {index + 1}.
-                      </span>
-                      {block.content}
-                    </div>
-                  ))}
+              {/* 🔥 Affiche la bonne réponse SEULEMENT si faux */}
+              {!isCorrect && (
+                <div className="mt-6 p-4 bg-muted rounded-xl w-full max-w-2xl">
+                  <p className="font-medium text-muted-foreground mb-3">Bonne réponse :</p>
+                  <div className="space-y-2">
+                    {mailBlocks.map((block, index) => (
+                      <div 
+                        key={block.id} 
+                        className="p-3 rounded-lg bg-background border"
+                      >
+                        <span className="text-xs font-bold text-muted-foreground mr-2">
+                          {index + 1}.
+                        </span>
+                        {block.content}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Un seul bouton */}
+              {/* ✅ Un seul bouton */}
               <Button 
                 size="lg" 
                 variant={isCorrect ? "success" : "default"}
