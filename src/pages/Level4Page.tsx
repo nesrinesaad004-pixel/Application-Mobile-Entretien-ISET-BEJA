@@ -90,20 +90,14 @@ export default function Level4Page() {
     if (isCorrect) {
       toast.success('Excellent choix ! +10 points');
     } else {
-      toast.error('Cette tenue n\'est pas appropriée. La bonne réponse vous est affichée.');
+      toast.error('Cette tenue n\'est pas appropriée.');
     }
-
-    // ➡️ Passage automatique à l'étape 2 après 1.5s
-    setTimeout(() => setStep(2), 1500);
   };
 
-  // Move block up or down using buttons (mobile-friendly)
   const moveBlock = (index: number, direction: 'up' | 'down') => {
     if (hasValidated) return;
-    
     const newIndex = direction === 'up' ? index - 1 : index + 1;
     if (newIndex < 0 || newIndex >= blocks.length) return;
-    
     const newBlocks = [...blocks];
     [newBlocks[index], newBlocks[newIndex]] = [newBlocks[newIndex], newBlocks[index]];
     setBlocks(newBlocks);
@@ -116,6 +110,8 @@ export default function Level4Page() {
   };
 
   const handleValidate = () => {
+    if (blocks.length !== 4) return;
+
     const correct = checkOrder();
     setIsCorrect(correct);
     setHasValidated(true);
@@ -123,24 +119,29 @@ export default function Level4Page() {
     if (correct) {
       toast.success('Excellent ! Votre pitch est parfaitement structuré ! +10 points');
     } else {
-      toast.error('L\'ordre n\'est pas optimal. La bonne réponse vous est affichée.');
+      toast.error('L\'ordre n\'est pas optimal.');
     }
   };
 
-  const handleContinue = () => {
+  const handleContinueToNextLevel = () => {
     const avatarScore = avatarCorrect ? 10 : 0;
     const pitchScore = isCorrect ? 10 : 0;
     const totalScore = avatarScore + pitchScore;
+
     completeLevel(4, totalScore);
 
     if (totalScore === 20) {
       toast.success(`Excellent ! Vous avez obtenu ${totalScore}/20 points au niveau 4.`);
+    } else if (totalScore >= 10) {
+      toast.info(`Bon travail ! ${totalScore}/20 points.`);
     } else {
-      toast.warning(`Vous avez obtenu ${totalScore}/20 points au niveau 4.`);
+      toast.warning(`${totalScore}/20 points. Révisez votre présentation !`);
     }
 
     navigate('/niveau-5');
   };
+
+  const correctAvatar = avatars.find(a => a.isCorrect)!;
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
@@ -198,18 +199,27 @@ export default function Level4Page() {
               </div>
             )}
 
-            {/* Affichage de la bonne réponse après validation */}
-            {avatarValidated && (
+            {/* 🔥 Affiche la bonne réponse SEULEMENT si faux */}
+            {avatarValidated && !avatarCorrect && (
               <div className="mt-4 p-3 bg-muted rounded-lg">
                 <p className="font-medium text-muted-foreground">Bonne réponse :</p>
                 <div className="flex items-center gap-3 mt-2">
                   <img 
-                    src={avatars.find(a => a.isCorrect)?.image} 
+                    src={correctAvatar.image} 
                     alt="Tenue soignée" 
                     className="w-12 h-12 rounded-full object-cover" 
                   />
-                  <span>Soigné – Tenue professionnelle</span>
+                  <span>{correctAvatar.label} – Tenue professionnelle</span>
                 </div>
+              </div>
+            )}
+
+            {avatarValidated && (
+              <div className="flex justify-center mt-6">
+                <Button size="lg" variant="default" onClick={() => setStep(2)}>
+                  Passer à l’étape suivante
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
               </div>
             )}
           </div>
@@ -220,8 +230,8 @@ export default function Level4Page() {
           <div className="animate-fade-in">
             <div className="flex items-center justify-center gap-4 mb-6">
               <img 
-                src={avatars.find(a => a.id === selectedAvatar)?.image} 
-                alt="Avatar" 
+                src={correctAvatar.image} 
+                alt="Avatar professionnel"
                 className="w-16 h-16 rounded-2xl object-cover shadow-lg"
               />
               <div>
@@ -234,7 +244,6 @@ export default function Level4Page() {
               </div>
             </div>
 
-            {/* Blocks with Up/Down buttons */}
             <div className="bg-card border-2 border-dashed border-border rounded-2xl p-4 md:p-6 mb-8">
               <div className="space-y-3">
                 {blocks.map((block, index) => (
@@ -288,7 +297,6 @@ export default function Level4Page() {
               </div>
             </div>
 
-            {/* Validation */}
             {!hasValidated && (
               <div className="flex justify-center">
                 <Button size="lg" onClick={handleValidate}>
@@ -298,33 +306,33 @@ export default function Level4Page() {
               </div>
             )}
 
-            {/* Après validation */}
-            {hasValidated && (
-              <>
-                {/* Bonne réponse */}
-                <div className="mt-6 p-4 bg-muted rounded-xl w-full max-w-2xl">
-                  <p className="font-medium text-muted-foreground mb-3">Bonne réponse :</p>
-                  <div className="space-y-2">
-                    {pitchBlocks.map((block, index) => (
-                      <div key={block.id} className="p-3 rounded-lg bg-background border">
-                        <span className="text-xs font-bold text-muted-foreground mr-2">{index + 1}.</span>
-                        {block.content}
-                      </div>
-                    ))}
-                  </div>
+            {/* 🔥 Affiche la bonne réponse SEULEMENT si faux */}
+            {hasValidated && !isCorrect && (
+              <div className="mt-6 p-4 bg-muted rounded-xl w-full max-w-2xl">
+                <p className="font-medium text-muted-foreground mb-3">Bonne réponse :</p>
+                <div className="space-y-2">
+                  {pitchBlocks.map((block, index) => (
+                    <div key={block.id} className="p-3 rounded-lg bg-background border">
+                      <span className="text-xs font-bold text-muted-foreground mr-2">{index + 1}.</span>
+                      {block.content}
+                    </div>
+                  ))}
                 </div>
+              </div>
+            )}
 
-                {/* Un seul bouton */}
+            {/* ✅ Un seul bouton */}
+            {hasValidated && (
+              <div className="flex justify-center mt-4">
                 <Button 
                   size="lg" 
                   variant={isCorrect ? "success" : "default"}
-                  onClick={handleContinue}
-                  className="mt-4"
+                  onClick={handleContinueToNextLevel}
                 >
                   Passer au niveau suivant
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-              </>
+              </div>
             )}
           </div>
         )}
